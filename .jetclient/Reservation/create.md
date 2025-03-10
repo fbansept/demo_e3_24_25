@@ -13,6 +13,9 @@ raw = '''
   "dateFin" : "2025-02-01T12:25:01",
   "place" : {
     "id" : 2
+  },
+  "utilisateur" : {
+    "id" : 
   }
 }'''
 ```

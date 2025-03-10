@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -19,4 +21,6 @@ public class Place {
     protected Integer id;
     protected String numero;
 
+    @OneToMany(mappedBy = "place")
+    protected List<Reservation> reservations;
 }

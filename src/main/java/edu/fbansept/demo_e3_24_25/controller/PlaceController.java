@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +34,35 @@ public class PlaceController {
     public List<Place> getAll() {
 
         return placeDao.findAll();
+    }
+
+    @GetMapping("/place-indisponible/{date}")
+    public List<Place> getAllIndiponible(@PathVariable String date) {
+
+        LocalDateTime dateTime = LocalDateTime.parse(date);
+
+        return placeDao.indisponibleLe(dateTime);
+    }
+
+    @GetMapping("/place-disponible/{date}")
+    public List<Place> getAllDisponible(@PathVariable String date) {
+
+        LocalDateTime dateTime = LocalDateTime.parse(date);
+
+        return placeDao.disponibleLe(dateTime);
+    }
+
+    @GetMapping("/place-by-numero/{numero}")
+    public ResponseEntity<Place> getByNumero(@PathVariable String numero) {
+
+        Optional<Place> optionalPlace = placeDao.findByNumero(numero);
+
+        if (optionalPlace.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(optionalPlace.get(), HttpStatus.OK);
+
     }
 
     @PostMapping("/place")

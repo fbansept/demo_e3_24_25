@@ -1,5 +1,6 @@
 package edu.fbansept.demo_e3_24_25.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,6 +28,7 @@ public class Reservation {
     protected LocalDateTime dateCreation;
 
     @ManyToOne(optional = false)
+    @JsonIgnore
     protected Place place;
 
     @ManyToOne(optional = false)

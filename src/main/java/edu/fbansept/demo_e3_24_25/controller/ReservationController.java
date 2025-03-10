@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +37,16 @@ public class ReservationController {
         return reservationDao.findAll();
     }
 
+    @GetMapping("/reservation-at-date/{date}")
+    public List<Reservation> getAllByDate(@PathVariable String date) {
+
+        LocalDateTime dateTime = LocalDateTime.parse(date);
+
+        return reservationDao.findAllByDateDebutLessThanEqualAndDateFinGreaterThanEqual(
+                dateTime,dateTime
+        );
+    }
+
     @PostMapping("/reservation")
     public ResponseEntity<Reservation> create(@RequestBody Reservation reservation) {
 
@@ -44,6 +56,7 @@ public class ReservationController {
 
         return new ResponseEntity<>(reservation, HttpStatus.CREATED);
     }
+
 
     @PutMapping("/reservation/{id}")
     public ResponseEntity<Reservation> update(
