@@ -1,14 +1,15 @@
 package edu.fbansept.demo_e3_24_25.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import edu.fbansept.demo_e3_24_25.dao.ReservationDao;
 import edu.fbansept.demo_e3_24_25.model.Reservation;
+import edu.fbansept.demo_e3_24_25.view.AffichageReservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ public class ReservationController {
     protected ReservationDao reservationDao;
 
     @GetMapping("/reservation/{id}")
+    @JsonView(AffichageReservation.class)
     public ResponseEntity<Reservation> get(@PathVariable int id) {
 
         Optional<Reservation> optionalReservation = reservationDao.findById(id);
@@ -32,12 +34,14 @@ public class ReservationController {
     }
 
     @GetMapping("/reservations")
+    @JsonView(AffichageReservation.class)
     public List<Reservation> getAll() {
 
         return reservationDao.findAll();
     }
 
     @GetMapping("/reservation-at-date/{date}")
+    @JsonView(AffichageReservation.class)
     public List<Reservation> getAllByDate(@PathVariable String date) {
 
         LocalDateTime dateTime = LocalDateTime.parse(date);
@@ -48,6 +52,7 @@ public class ReservationController {
     }
 
     @PostMapping("/reservation")
+    @JsonView(AffichageReservation.class)
     public ResponseEntity<Reservation> create(@RequestBody Reservation reservation) {
 
         reservation.setId(null);
