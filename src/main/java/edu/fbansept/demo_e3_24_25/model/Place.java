@@ -1,6 +1,7 @@
 package edu.fbansept.demo_e3_24_25.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import edu.fbansept.demo_e3_24_25.view.AffichagePlace;
 import edu.fbansept.demo_e3_24_25.view.AffichageReservation;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -20,9 +21,10 @@ import java.util.List;
 public class Place {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(AffichagePlace.class)
     protected Integer id;
 
-    @JsonView(AffichageReservation.class)
+    @JsonView({AffichageReservation.class, AffichagePlace.class})
     protected String numero;
 
     @OneToMany(mappedBy = "place")

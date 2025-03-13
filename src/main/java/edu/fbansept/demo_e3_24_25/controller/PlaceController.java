@@ -1,7 +1,9 @@
 package edu.fbansept.demo_e3_24_25.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import edu.fbansept.demo_e3_24_25.dao.PlaceDao;
 import edu.fbansept.demo_e3_24_25.model.Place;
+import edu.fbansept.demo_e3_24_25.view.AffichagePlace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ public class PlaceController {
     protected PlaceDao placeDao;
 
     @GetMapping("/place/{id}")
+    @JsonView(AffichagePlace.class)
     public ResponseEntity<Place> get(@PathVariable int id) {
 
         Optional<Place> optionalPlace = placeDao.findById(id);
@@ -31,12 +34,14 @@ public class PlaceController {
     }
 
     @GetMapping("/places")
+    @JsonView(AffichagePlace.class)
     public List<Place> getAll() {
 
         return placeDao.findAll();
     }
 
     @GetMapping("/place-indisponible/{date}")
+    @JsonView(AffichagePlace.class)
     public List<Place> getAllIndiponible(@PathVariable String date) {
 
         LocalDateTime dateTime = LocalDateTime.parse(date);
@@ -45,6 +50,7 @@ public class PlaceController {
     }
 
     @GetMapping("/place-disponible/{date}")
+    @JsonView(AffichagePlace.class)
     public List<Place> getAllDisponible(@PathVariable String date) {
 
         LocalDateTime dateTime = LocalDateTime.parse(date);
@@ -53,6 +59,7 @@ public class PlaceController {
     }
 
     @GetMapping("/place-by-numero/{numero}")
+    @JsonView(AffichagePlace.class)
     public ResponseEntity<Place> getByNumero(@PathVariable String numero) {
 
         Optional<Place> optionalPlace = placeDao.findByNumero(numero);
@@ -66,6 +73,7 @@ public class PlaceController {
     }
 
     @PostMapping("/place")
+    @JsonView(AffichagePlace.class)
     public ResponseEntity<Place> create(@RequestBody Place place) {
 
         place.setId(null);
