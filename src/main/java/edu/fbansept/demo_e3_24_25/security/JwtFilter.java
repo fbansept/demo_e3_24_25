@@ -27,10 +27,13 @@ public class JwtFilter extends OncePerRequestFilter {
         String authorization = request.getHeader("Authorization");
 
         if(authorization != null) {
-            String login = jwtUtils.getSubject(authorization);
+
+            String jwt = authorization.substring(7);
+
+            String email = jwtUtils.getSubject(jwt);
 
             MyUserDetails myUserDetails = (MyUserDetails) myUserDetailsService
-                    .loadUserByUsername(login);
+                    .loadUserByUsername(email);
 
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                     new UsernamePasswordAuthenticationToken(myUserDetails, null, myUserDetails.getAuthorities());
