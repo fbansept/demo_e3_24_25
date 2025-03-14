@@ -19,6 +19,7 @@ public class Utilisateur {
     protected Integer id;
     protected String email;
     protected String password;
+    protected String role;
 
 
 }

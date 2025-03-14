@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin
 public class UtilisateurController {
 
     @Autowired
@@ -76,7 +77,4 @@ public class UtilisateurController {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-
-
 }

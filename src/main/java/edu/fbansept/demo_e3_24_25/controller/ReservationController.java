@@ -3,6 +3,7 @@ package edu.fbansept.demo_e3_24_25.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import edu.fbansept.demo_e3_24_25.dao.ReservationDao;
 import edu.fbansept.demo_e3_24_25.model.Reservation;
+import edu.fbansept.demo_e3_24_25.model.Utilisateur;
 import edu.fbansept.demo_e3_24_25.view.AffichageReservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin
 public class ReservationController {
 
     @Autowired
@@ -56,6 +58,32 @@ public class ReservationController {
     public ResponseEntity<Reservation> create(@RequestBody Reservation reservation) {
 
         reservation.setId(null);
+
+        reservationDao.save(reservation);
+
+        return new ResponseEntity<>(reservation, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/reservation-place-journee")
+    @JsonView(AffichageReservation.class)
+    public ResponseEntity<Reservation> createReservationJournee(@RequestBody Reservation reservation) {
+
+        reservation.setId(null);
+
+        LocalDateTime dateDebut = LocalDateTime.now()
+                .withHour(8).withMinute(0).withSecond(0).withNano(0);
+        LocalDateTime dateFin = dateDebut.withHour(19);
+
+        reservation.setDateDebut(dateDebut);
+        reservation.setDateFin(dateFin);
+
+        //A remplacer par la personne connectée
+        Utilisateur fauxUtilisateur = new Utilisateur();
+        fauxUtilisateur.setId(1);
+
+        reservation.setUtilisateur(fauxUtilisateur);
+
+        reservation.setDateCreation(LocalDateTime.now());
 
         reservationDao.save(reservation);
 
